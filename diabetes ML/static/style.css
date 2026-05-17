@@ -1,0 +1,174 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    margin: 0;
+    color: white;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 10px;
+}
+
+/* TITLE */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* LAYOUT */
+.main {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* FORM SIDE */
+.form {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* SECTION CARD */
+.section {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    transition: 0.3s;
+}
+
+.section:hover {
+    transform: translateY(-3px);
+}
+
+/* SECTION TITLE */
+.section h2 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 5px;
+}
+
+/* GRID (FIXED) */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+/* INPUTS */
+label {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+input, select {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255,255,255,0.95);
+    color: black;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* BUTTON */
+button {
+    padding: 14px;
+    background: #00c6ff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #0072ff;
+    color: white;
+}
+
+/* RESULTS PANEL */
+.results {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+/* RESULT CARDS */
+.card {
+    background: rgba(255,255,255,0.2);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.card p {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.prediction {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.high-risk {
+    color: #ff6b6b;
+}
+
+.low-risk {
+    color: #51cf66;
+}
+
+.probability {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+.waiting {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.error {
+    font-size: 14px;
+    color: #ff6b6b;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 900px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .results {
+        position: relative;
+    }
+}

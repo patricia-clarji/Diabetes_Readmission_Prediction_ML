@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Diabetes Prediction App</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+<h1>Diabetes Readmission & Hospital Stay Prediction</h1>
+
+<div class="main">
+
+<form action="/" method="POST" class="form">
+
+<!-- PERSONAL -->
+<div class="section">
+<h2>Personal Information</h2>
+<div class="grid">
+
+<label>Age</label>
+<select name="age_numeric">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="5">0–10</option>
+<option value="15">10–20</option>
+<option value="25">20–30</option>
+<option value="35">30–40</option>
+<option value="45">40–50</option>
+<option value="55">50–60</option>
+<option value="65">60–70</option>
+<option value="75">70–80</option>
+<option value="85">80–90</option>
+</select>
+
+<label>Gender</label>
+<select name="gender">
+<option value="" disabled selected>-- Select an option --</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<label>Race</label>
+<select name="race">
+<option value="" disabled selected>-- Select an option --</option>
+<option>Caucasian</option>
+<option>Other</option>
+<option>Missing</option>
+</select>
+
+</div>
+</div>
+
+<!-- ADMISSION -->
+<div class="section">
+<h2>Admission Details</h2>
+<div class="grid">
+
+<label>Admission Type</label>
+<select name="admission_type_id">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="emergency">Emergency / Urgent</option>
+<option value="elective">Elective</option>
+<option value="other">Other / Unknown</option>
+</select>
+
+<label>Discharge Disposition</label>
+<select name="discharge_group">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="home">Home</option>
+<option value="care">Care Facility</option>
+<option value="expired">Expired</option>
+<option value="other">Other</option>
+</select>
+
+<label>Admission Source</label>
+<select name="admission_source_group">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="referral">Referral</option>
+<option value="emergency">Emergency Room</option>
+<option value="transfer">Transfer</option>
+<option value="other">Other</option>
+</select>
+
+</div>
+</div>
+
+<!-- MEDICAL -->
+<div class="section">
+<h2>Medical Data</h2>
+<div class="grid">
+
+<label>Lab Procedures</label>
+<input type="number" name="num_lab_procedures" min="0" max="120" required>
+
+<label>Procedures</label>
+<input type="number" name="num_procedures" min="0" max="6" required>
+
+<label>Medications</label>
+<input type="number" name="num_medications" min="0" max="81" required>
+
+<label>Diagnoses Count</label>
+<input type="number" name="number_diagnoses" min="0" max="16" required>
+
+</div>
+</div>
+
+<!-- VISITS -->
+<div class="section">
+<h2>Visits History</h2>
+<div class="grid">
+
+<label>Outpatient Visits</label>
+<input type="number" name="number_outpatient" min="0" max="10" required>
+
+<label>Emergency Visits</label>
+<input type="number" name="number_emergency" min="0" max="10" required>
+
+<label>Inpatient Visits</label>
+<input type="number" name="number_inpatient" min="0" max="10" required>
+
+</div>
+</div>
+
+<!-- MEDICATION -->
+<div class="section">
+<h2>Treatment & Medication</h2>
+<div class="grid">
+
+<label>Insulin</label>
+<select name="insulin">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="No">No</option>
+<option value="Up">Increased</option>
+<option value="Down">Decreased</option>
+<option value="Steady">Steady</option>
+</select>
+
+<label>Diabetes Medication</label>
+<select name="diabetesMed">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="No">No</option>
+<option value="Yes">Yes</option>
+</select>
+
+<label>Diabetes Medication Change</label>
+<select name="change">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="No">Not Changed</option>
+<option value="Ch">Changed</option>
+</select>
+
+</div>
+</div>
+
+<!-- LAB -->
+<div class="section">
+<h2>Lab Results</h2>
+<div class="grid">
+
+<label>A1C Result</label>
+<select name="A1Cresult">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="None">Not Measured</option>
+<option value="Norm">Normal</option>
+<option value=">8">High</option>
+</select>
+
+<label>Max Glucose Serum</label>
+<select name="max_glu_serum">
+<option value="" disabled selected>-- Select an option --</option>
+<option value="None">Not Measured</option>
+<option value="Norm">Normal</option>
+<option value=">300">High</option>
+</select>
+
+</div>
+</div>
+
+<button type="submit">Predict</button>
+
+</form>
+
+<!-- RESULTS -->
+<div class="results">
+
+<h2>Prediction Results</h2>
+
+<div class="card">
+<h3>Readmission Risk</h3>
+{% if error_message %}
+    <p class="error">{{ error_message }}</p>
+{% elif readmitted_prediction is not none %}
+    <p class="prediction {% if readmitted_prediction == 'Yes' %}high-risk{% else %}low-risk{% endif %}">
+        {{ readmitted_prediction }}
+    </p>
+    {% if readmitted_probability is not none %}
+        <p class="probability">Confidence: {{ readmitted_probability }}%</p>
+    {% endif %}
+{% else %}
+    <p class="waiting">Submit form to see prediction...</p>
+{% endif %}
+</div>
+
+<div class="card">
+<h3>Estimated Hospital Stay</h3>
+{% if error_message %}
+    <p class="error">Error</p>
+{% elif time_prediction is not none %}
+    <p class="prediction">{{ time_prediction }} days</p>
+{% else %}
+    <p class="waiting">Submit form to see prediction...</p>
+{% endif %}
+</div>
+
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
